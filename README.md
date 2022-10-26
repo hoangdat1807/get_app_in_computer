@@ -1,1 +1,0 @@
-# get_app_in_computer

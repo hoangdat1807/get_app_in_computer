@@ -22,43 +22,7 @@ namespace TestingApp
     {
         StringBuilder sb = new StringBuilder();
         //AccessIni.GetPrivateProfileString("CONFIG", "URL", "", sb, 150, iniPath);
-        //        string dbHost = sb.ToString().Trim();
-        //AccessIni.GetPrivateProfileString("CONFIG", "DB_User", "", sb, 150, iniPath);
-        //        string dbUser = sb.ToString().Trim();
-        //AccessIni.GetPrivateProfileString("CONFIG", "DB_Password", "", sb, 150, iniPath);
-        //        string dbPassword = sb.ToString().Trim();
-        //AccessIni.GetPrivateProfileString("CONFIG", "DB_Name", "", sb, 150, iniPath);
-        //        string dbName = sb.ToString().Trim();
-        /* [DllImport("kernel32.dll")]
-         static extern IntPtr GetConsoleWindow();
-         [DllImport("user32.dll")]
-         static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-         const int SW_HIDE = 0;
-         const int SW_SHOW = 5;
-         IntPtr hWnd = FindWindow(null, "Your console windows caption");
-         // Usage:
-         //  private handle = GetConsoleWindow();
-
-         // Hide
-         ShowWindow(hWnd, SW_HIDE);
-
-         // Show
-         // ShowWindow(extern, SW_SHOW);
-         */
-        /* //----Đạt tạm khóa---- 
-       private string databaseName = "getlistapp";
-       string constring = "Server=localhost; database= getlistapp; UID=root; password=123456; SslMode = none;Allow User Variables=True;Character Set=UTF8";
-       MySqlConnection conn =new MySqlConnection(constring);
-       conn.Open();
-       string query = "select * from employee";
-       // connection = new MySqlConnection(connstring);
-       connection.Open();
-       }
-       catch 
-       {
-
-       }
-       */
+      
         public string sqlstr = "";
         public string Manufacturer = "";
        // public string Manufacture = "";
@@ -67,52 +31,24 @@ namespace TestingApp
         private string databaseName = "getlistapp";
         static string connection = "SERVER=localhost; UID=root; password=123456; database=getlistapp;SslMode = none;Allow User Variables=True;Character Set=UTF8";
         string strSQLInsert = "";
-        /* private void Form1;_Load(object sender, System.EventArgs e)
-         {
-             checkifconnected();
-         }
-         */
-        /*
-        public void checkifconnected()
-        {
-            MySqlConnection connect = new MySqlConnection(connection);
-            try
-            {
-                connect.Open();
-                Console.WriteLine("Database connected");
-            }
-            catch
-            {
-                Console.WriteLine("you are not connected to database");
-            }
-        }
-        */
+        public string INSERT_APP = "";
+        public string id = "";
+        
         MySqlConnection connec = new MySqlConnection(connection);
-        //public CSharp_MySQL_Insert()
-        //{
-        //    InitializeComponent();
-        //}
+       
         static void InsertDatabase(string strSQLInsert)
         {
             MySqlConnection connec = new MySqlConnection(connection);
-            //  var dbCon1 = ConnectMySQL.Instance();
-            // string strSQLInsert = "INSERT INTO computer_configuration (ID_Computer,Battery,BIOS,DiskDrive,MemoryDevice,PhysicalMemory,Processor,VideoController  ) VALUES (Manufacturer+, '" + 2 + "', '" +2 + "', '" + 2 + "')";
-            //string strSQLInsert = "INSERT INTO computer_configuration (ID_Computer,Battery,BIOS) VALUES ('" + 2 + "', '" + 2 + "', '" + 2 + "')";
-            //  MessageBox.Show(strSQLInsert); // @HoangDat Hiện ra câu Query truy vấn Databas
-            //  string strSQLUpdate = "UPDATE lot_data SET BoardNo = '" + Convert.ToInt32(DataBoard) + "', Pcs = '" + Convert.ToInt32(DataPcs) + "' WHERE RouteStepPara ='" + txtRoute_Step_Para.Text.ToString() + "';";
-            // richTextBox1.AppendText(strSQLUpdate + "\n");
-            // string strSQLInsert = sqlstr;
             connec.Open();
             MySqlCommand command = new MySqlCommand(strSQLInsert, connec);
             int value = command.ExecuteNonQuery();
-              Console.WriteLine(value.ToString());
+             //Console.WriteLine(value.ToString());
             
            // var cmdUpdate = new MySqlCommand(strSQLInsert, dbCon1.Connection);
                 //var readerUpdate = cmdUpdate.ExecuteReader();
                 //readerUpdate.Close();
                 //readerUpdate.Dispose();
                 connec.Close();
-            
         }
 
 
@@ -123,7 +59,7 @@ namespace TestingApp
             if (str1.IndexOf(str2) == 0)
             {
                 result = str1.Replace(str2, "");
-                Console.WriteLine(result);
+                //Console.WriteLine(result);
             }
             return result;
         }
@@ -139,36 +75,42 @@ namespace TestingApp
         }
         public static void Main(string[] args)
         {
-            string sqlstr = "INSERT INTO computer_configuration (ID_Computer,Battery,BIOS,DiskDrive,MemoryDevice,PhysicalMemory,Processor,VideoController) VALUES (";
+           // string sqlstr = "INSERT INTO computer_configuration (Manufacture,ID_Computer,DiskDrive,MemoryDevice,PhysicalMemory,Processor,VideoController, Display1) VALUES (";
             // InsertDatabase();
             // Doc cau hinh may tinh
+            string id = "";
+            string Manufacturer = "";
+            string DiskDrive = "";
+            string Memory = "";
+            string Capacity = "";
+            string Processor = "";
+            string Card = "";
+            
             Connection wmiConnection = new Connection();
             Win32_BaseBoard a = new Win32_BaseBoard(wmiConnection);
-          // string sqlstr = "INSERT INTO computer_configuration (ID_Computer,Battery,BIOS,DiskDrive,MemoryDevice,PhysicalMemory,Processor,VideoController) VALUES (";
+            // string sqlstr = "INSERT INTO computer_configuration (ID_Computer,Battery,BIOS,DiskDrive,MemoryDevice,PhysicalMemory,Processor,VideoController) VALUES (";
+         
             foreach (string property in a.GetPropertyValues())
             {
-                //  Console.WriteLine(property);
+           //     Console.WriteLine(property);
                 //Console.WriteLine("xxxxx"+m);
                 if (TextSlice(property, "Manufacturer: ").Length > 0)
                 {
-                    sqlstr += TextSlice(property, "Manufacturer: ");
-                    sqlstr = sqlstr.Replace(".", "");
-                }
-                //Console.WriteLine( property);
-                if (TextSlice(property, "Product: ").Length > 0)
-                {
-                    sqlstr += "\n"+ TextSlice(property, "Product: ");
+                    //sqlstr += "'" + TextSlice(property, "Manufacturer: ");
+                     Manufacturer  = TextSlice(property, "Manufacturer: ").Replace(".", "");
                 }
                 if (TextSlice(property, "SerialNumber: ").Length > 0)
                 {
-                    sqlstr += "\n"+ TextSlice(property, "SerialNumber: ");
+                     id = TextSlice(property, "SerialNumber: ");
+                    Console.WriteLine(id);
+                    //sqlstr += "'" + TextSlice(property, "SerialNumber: ");
                 }
-                //sqlstr +="\n"+ Product;
-                //sqlstr +="\n" + SerialNumber+",";
+
             }
             //----@hoang dat: 
-            sqlstr += ",";
-            Win32_Battery b = new Win32_Battery(wmiConnection);
+            Console.WriteLine(id);
+            
+         /*   Win32_Battery b = new Win32_Battery(wmiConnection);
             Console.WriteLine("------| " + b.GetType().ToString() + " |------");
             foreach (string property in b.GetPropertyValues())
             {
@@ -176,7 +118,7 @@ namespace TestingApp
                 // string Availability= TextSlice(property, "Availability: ");
                 if (TextSlice(property, "Description: ").Length > 0)
                 {
-                    sqlstr += TextSlice(property, "Description: ");
+                    sqlstr += "'"+ TextSlice(property, "Description: ");
                 }
                 if (TextSlice(property, "Name: ").Length > 0)
                 {
@@ -188,7 +130,8 @@ namespace TestingApp
                 }
                 
             }
-            sqlstr += ",";
+            
+            sqlstr += "',";
             //Loop all the properties
             Win32_BIOS c = new Win32_BIOS(wmiConnection);
             Console.WriteLine("");
@@ -198,7 +141,7 @@ namespace TestingApp
                 Console.WriteLine(property);
                 if (TextSlice(property, "Caption: ").Length > 0)
                 {
-                    sqlstr += TextSlice(property, "Caption: ");
+                    sqlstr += "'" + TextSlice(property, "Caption: ");
                 }
                 if (TextSlice(property, "CurrentLanguage: ").Length > 0)
                 {
@@ -211,7 +154,8 @@ namespace TestingApp
           
              // sqlstr += Caption + "\n" + CurrentLanguage + "\n" + Version + ",";
             }
-            sqlstr += ",";
+            sqlstr += "',";
+            */
             Win32_DiskDrive f = new Win32_DiskDrive(wmiConnection);
             Console.WriteLine("");
             Console.WriteLine("------| " + f.GetType().ToString() + " |------");
@@ -220,12 +164,13 @@ namespace TestingApp
                 Console.WriteLine(property);
                 if (TextSlice(property, "Caption: ").Length > 0)
                 {
-                    sqlstr += TextSlice(property, "Caption: ");
+                    DiskDrive = TextSlice(property, "Caption: ");
+                    //sqlstr += "'" + TextSlice(property, "Caption: ");
                 }
-                if (TextSlice(property, "SerialNumber: ").Length > 0)
-                {
-                    sqlstr += "\n" + TextSlice(property, "SerialNumber: ");
-                }
+                //if (TextSlice(property, "SerialNumber: ").Length > 0)
+                //{
+                //    sqlstr += "\n" + TextSlice(property, "SerialNumber: ");
+                //}
                 //TextSlice(property, "CurrentLanguage: ");
                 //TextSlice(property, "Description:");
                 //TextSlice(property, "InstallableLanguages: ");
@@ -233,18 +178,19 @@ namespace TestingApp
                 //TextSlice(property, "Name: ");
                 //TextSlice(property, "SystemName: ");
             }
-            sqlstr += ",";
+            
             Win32_MemoryDevice n = new Win32_MemoryDevice(wmiConnection);
             Console.WriteLine("");
             Console.WriteLine("------| " + n.GetType().ToString() + " |------");
             foreach (string property in n.GetPropertyValues())
             {
-                Console.WriteLine(property);
+               // Console.WriteLine(property);
                 //TextSlice(property, "EndingAddress: ");
 
                 if (TextSlice(property, "EndingAddress: ").Length > 0)
                 {
-                    sqlstr += TextSlice(property, "EndingAddress: ");
+                   Memory = TextSlice(property, "EndingAddress: ");
+                    //sqlstr += "'" + TextSlice(property, "EndingAddress: ");
                 }
                 //string EndingAddress = TextSlice(property, "EndingAddress: ");
                 //TextSlice(property, "Description:");
@@ -254,7 +200,7 @@ namespace TestingApp
                 //TextSlice(property, "SystemName: ");
                 //TextSlice(property, "SerialNumber: ");
             }
-            sqlstr += ",";
+          
             //Win32_MemoryDevice o = new Win32_MemoryDevice(wmiConnection);
             //Console.WriteLine("");
             //   Console.WriteLine("------| " + o.GetType().ToString() + " |------");
@@ -270,29 +216,29 @@ namespace TestingApp
                 Console.WriteLine(property);
                 if (TextSlice(property, "Capacity: ").Length > 0)
                 {
-                    sqlstr += TextSlice(property, "Capacity: ");
+                    Capacity= TextSlice(property, "Capacity: ");
                 }
-                if (TextSlice(property, "Manufacturer: ").Length > 0)
-                {
-                    sqlstr += "\n" + TextSlice(property, "Manufacturer: ");
-                }
-                if (TextSlice(property, "SerialNumber: ").Length > 0)
-                {
-                    sqlstr += "\n" + TextSlice(property, "SerialNumber: ");
-                }
-               
+                //if (TextSlice(property, "Manufacturer: ").Length > 0)
+                //{
+                //    sqlstr += "\n" + TextSlice(property, "Manufacturer: ");
+                //}
+                //if (TextSlice(property, "SerialNumber: ").Length > 0)
+                //{
+                //    sqlstr += "\n" + TextSlice(property, "SerialNumber: ");
+                //}
+
                 //sqlstr += Capacity + "\n" + Manufacturer + "\n" + SerialNumber + ",";
             }
-            sqlstr += ",";
+     
             Win32_Processor y = new Win32_Processor(wmiConnection);
             Console.WriteLine("");
             Console.WriteLine("------| " + y.GetType().ToString() + " |------");
             foreach (string property in y.GetPropertyValues())
             {
-                //  Console.WriteLine(property);
+                  Console.WriteLine(property);
                 if (TextSlice(property, "Name: ").Length > 0)
                 {
-                    sqlstr += TextSlice(property, "Name: ");
+                    Processor = TextSlice(property, "Name: ");
                 }
                 //string name= TextSlice(property, "Name: ");
                 //TextSlice(property, "ProcessorId: ");
@@ -300,7 +246,7 @@ namespace TestingApp
                 //TextSlice(property, "SystemName: ");
                
             }
-            sqlstr += ",";
+            //sqlstr += "',";
             //Win32_SystemEnclosure dd = new Win32_SystemEnclosure(wmiConnection);
             //Console.WriteLine("");
             //Console.WriteLine("------| " + dd.GetType().ToString() + " |------");
@@ -319,30 +265,57 @@ namespace TestingApp
             Win32_VideoController jj = new Win32_VideoController(wmiConnection);
             Console.WriteLine("");
             Console.WriteLine("------| " + jj.GetType().ToString() + " |------");
+            Console.WriteLine(jj.GetPropertyValues());
             foreach (string property in jj.GetPropertyValues())
             {
-                // Console.WriteLine(property);
-                if (TextSlice(property, "Caption: ").Length > 0)
+               Console.WriteLine(property);
+                //@hoangdat: Caption : tên card đồ họa Render 
+                //if (TextSlice(property, "Caption: ").Length > 0)
+                //{
+                //    sqlstr += "'" + TextSlice(property, "Caption: ");
+                //}
+                ////@hoangdat: Description : tên card đồ họa Render
+                //if (TextSlice(property, "Description: ").Length > 0)
+                //{
+                //    sqlstr += "\n" + TextSlice(property, "Description: ");
+                //}
+                ////----@hoangdat :Name  tên card đồ họa Render và card màn hình 
+                if (TextSlice(property, "Name: ").Length > 0)
                 {
-                    sqlstr += TextSlice(property, "Caption: ");
+                   Card= TextSlice(property, "Name: ") ;
+                    //sqlstr += ",'"+"\n" + TextSlice(property, "Name: ") + "'";
                 }
-                if (TextSlice(property, "Description: ").Length > 0)
-                {
-                    sqlstr += "\n" + TextSlice(property, "Description: ");
-                }
-                
-              //  sqlstr += Caption + "\n" + Description ;
+                ////  sqlstr += Caption + "\n" + Description ;
             }
-            sqlstr += ")";
-           string test=" INSERT INTO computer_configuration(ID_Computer, Battery, BIOS, DiskDrive, MemoryDevice, PhysicalMemory, Processor, VideoController) VALUES('" +"a"+ "', '" + "a" + "', '" + "a" + "', '" + "a" + "', '" + "a" + "', '" + "a" + "', '" + "a" + "', '" + "a" + "')";
-
-           InsertDatabase(test);
+           string sqlstr = String.Format("INSERT INTO computer_configuration ( ID_Computer,Manufacture, DiskDrive, MemoryDevice, PhysicalMemory, Processor, VideoController ) VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}');", id, Manufacturer, DiskDrive, Memory, Capacity, Processor, Card);
+         //   string INSERT_APP = String.Format("INSERT INTO list_app_installing ( ID_Computer,List_app_Installing, Version, Installation_Date ) VALUES ('{0}','{1}','{2}','{3}')ON DUPLICATE KEY UPDATE  Version = '{4}', Installation_Date='{5}';", id, item.DisplayName, item.DisplayVersion, item.InstallDate, item.DisplayVersion, item.InstallDate);
+            InsertDatabase(sqlstr);
             //  Doc danh sach phan mem da cai
+            //foreach (var item in GetFullListInstalledApplication())
+            //{
+            //    Console.WriteLine(item.InstallDate + " --- " + item.DisplayName + " --- " + item.DisplayVersion);
+            //    string INSERT_APP = String.Format("INSERT INTO list_app_installing ( List_app_Installing, Version, Installation_Date ) VALUES ('{0}','{1}','{2}');", item.DisplayName, item.DisplayVersion, item.InstallDate);
+            //    InsertDatabase(INSERT_APP);
+            //}
             foreach (var item in GetFullListInstalledApplication())
             {
+                Console.WriteLine(id);
                 Console.WriteLine(item.InstallDate + " --- " + item.DisplayName + " --- " + item.DisplayVersion);
-            }
 
+                //count= select (count*) from table where idcomputer= and listap = lisap
+
+                //if (count>0)
+                //{
+                //    string INSERT_APP = String.Format("UPDATE SQL", id, item.DisplayName, item.DisplayVersion, item.InstallDate);
+                //    InsertDatabase(INSERT_APP);
+                //}
+                //else
+                //{
+                    string INSERT_APP = String.Format("INSERT INTO list_app_installing ( ID_Computer,List_app_Installing, Version, Installation_Date ) VALUES ('{0}','{1}','{2}','{3}')ON DUPLICATE KEY UPDATE  Version = '{4}', Installation_Date='{5}';", id, item.DisplayName, item.DisplayVersion, item.InstallDate, item.DisplayVersion, item.InstallDate);
+                    InsertDatabase(INSERT_APP);
+                
+            }
+            
             Console.WriteLine(System.Environment.MachineName); // PC name
         /* ------Hoang Dat test connect MySQL 
          * string connection = "SERVER=localhost; UID=root; password=123456; database=getlistapp;SslMode = none;Allow User Variables=True;Character Set=UTF8";
