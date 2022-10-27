@@ -84,8 +84,9 @@ namespace TestingApp
             string Memory = "";
             string Capacity = "";
             string Processor = "";
-            string Card = "";
-            
+            string Render = "";
+            string Display1 = "";
+            string Display2 = "";
             Connection wmiConnection = new Connection();
             Win32_BaseBoard a = new Win32_BaseBoard(wmiConnection);
             // string sqlstr = "INSERT INTO computer_configuration (ID_Computer,Battery,BIOS,DiskDrive,MemoryDevice,PhysicalMemory,Processor,VideoController) VALUES (";
@@ -282,12 +283,19 @@ namespace TestingApp
                 ////----@hoangdat :Name  tên card đồ họa Render và card màn hình 
                 if (TextSlice(property, "Name: ").Length > 0)
                 {
-                   Card= TextSlice(property, "Name: ") ;
+                    if (Render == "")
+                    {
+                        Render = TextSlice(property, "Name: ");
+                    }
+                    else
+                    {
+                        Display1 = TextSlice(property, "Name: ");
+                    }
                     //sqlstr += ",'"+"\n" + TextSlice(property, "Name: ") + "'";
                 }
                 ////  sqlstr += Caption + "\n" + Description ;
             }
-           string sqlstr = String.Format("INSERT INTO computer_configuration ( ID_Computer,Manufacture, DiskDrive, MemoryDevice, PhysicalMemory, Processor, VideoController ) VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}');", id, Manufacturer, DiskDrive, Memory, Capacity, Processor, Card);
+           string sqlstr = String.Format("INSERT INTO computer_configuration ( ID_Computer,Manufacture, DiskDrive, MemoryDevice, PhysicalMemory, Processor, Render, Display1 ) VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}')ON DUPLICATE KEY UPDATE  Manufacture = '{1}', DiskDrive='{2}', MemoryDevice='{3}', PhysicalMemory='{4}', Processor='{5}',  Render= '{6}', Display1='{7}';", id, Manufacturer, DiskDrive, Memory, Capacity, Processor, Render, Display1 );
          //   string INSERT_APP = String.Format("INSERT INTO list_app_installing ( ID_Computer,List_app_Installing, Version, Installation_Date ) VALUES ('{0}','{1}','{2}','{3}')ON DUPLICATE KEY UPDATE  Version = '{4}', Installation_Date='{5}';", id, item.DisplayName, item.DisplayVersion, item.InstallDate, item.DisplayVersion, item.InstallDate);
             InsertDatabase(sqlstr);
             //  Doc danh sach phan mem da cai
