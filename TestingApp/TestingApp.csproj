@@ -91,6 +91,7 @@
     <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
     </Reference>
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -151,6 +152,12 @@
     <Compile Include="Hardware\Win32_VoltageProbe.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service2.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Service2.Designer.cs">
+      <DependentUpon>Service2.cs</DependentUpon>
+    </Compile>
     <Compile Include="System\Net\Http\PostAsJsonAsync.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using baileysoft.Wmi;
 using MySql.Data.MySqlClient;
-
+using System.Timers;
 namespace TestingApp
 {
     public class InstalledApp
@@ -73,8 +73,25 @@ namespace TestingApp
 
             return result;
         }
-        public static void Main(string[] args)
+        public static void Main (string[] args)
         {
+            DateTime now = DateTime.Now;
+            if (String.Compare(now.ToString("t"), " 9:00AM", true) == 0 || String.Compare(now.ToString("3:00PM"), "not connect", true) == 0 || String.Compare(now.ToString("15:00"), "not connect", true) == 0)
+           
+            {
+                Timer myTime = new Timer();
+                myTime.Interval = 1000;
+                myTime.Elapsed += new ElapsedEventHandler(DisplayTimeEvent);
+                myTime.Start();
+                Console.ReadLine();
+            }
+           
+
+        }
+        public static void DisplayTimeEvent(object source, ElapsedEventArgs e)
+        {
+            Console.WriteLine("In TimerCallback: " + DateTime.Now);
+        
            // string sqlstr = "INSERT INTO computer_configuration (Manufacture,ID_Computer,DiskDrive,MemoryDevice,PhysicalMemory,Processor,VideoController, Display1) VALUES (";
             // InsertDatabase();
             // Doc cau hinh may tinh
@@ -296,8 +313,10 @@ namespace TestingApp
                 ////  sqlstr += Caption + "\n" + Description ;
             }
            string sqlstr = String.Format("INSERT INTO computer_configuration ( ID_Computer,Manufacture, DiskDrive, MemoryDevice, PhysicalMemory, Processor, Render, Display1 ) VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}')ON DUPLICATE KEY UPDATE  Manufacture = '{1}', DiskDrive='{2}', MemoryDevice='{3}', PhysicalMemory='{4}', Processor='{5}',  Render= '{6}', Display1='{7}';", id, Manufacturer, DiskDrive, Memory, Capacity, Processor, Render, Display1 );
-         //   string INSERT_APP = String.Format("INSERT INTO list_app_installing ( ID_Computer,List_app_Installing, Version, Installation_Date ) VALUES ('{0}','{1}','{2}','{3}')ON DUPLICATE KEY UPDATE  Version = '{4}', Installation_Date='{5}';", id, item.DisplayName, item.DisplayVersion, item.InstallDate, item.DisplayVersion, item.InstallDate);
-            InsertDatabase(sqlstr);
+            //   string INSERT_APP = String.Format("INSERT INTO list_app_installing ( ID_Computer,List_app_Installing, Version, Installation_Date ) VALUES ('{0}','{1}','{2}','{3}')ON DUPLICATE KEY UPDATE  Version = '{4}', Installation_Date='{5}';", id, item.DisplayName, item.DisplayVersion, item.InstallDate, item.DisplayVersion, item.InstallDate);
+           
+          InsertDatabase(sqlstr);
+
             //  Doc danh sach phan mem da cai
             //foreach (var item in GetFullListInstalledApplication())
             //{
@@ -319,7 +338,7 @@ namespace TestingApp
                 //}
                 //else
                 //{
-                    string INSERT_APP = String.Format("INSERT INTO list_app_installing ( ID_Computer,List_app_Installing, Version, Installation_Date ) VALUES ('{0}','{1}','{2}','{3}')ON DUPLICATE KEY UPDATE  Version = '{4}', Installation_Date='{5}';", id, item.DisplayName, item.DisplayVersion, item.InstallDate, item.DisplayVersion, item.InstallDate);
+                    string INSERT_APP = String.Format("INSERT INTO test ( ID_Computer,List_app_Installing, Version, Installation_Date ) VALUES ('{0}','{1}','{2}','{3}')ON DUPLICATE KEY UPDATE  Version = '{4}', Installation_Date='{5}';", id, item.DisplayName, item.DisplayVersion, item.InstallDate, item.DisplayVersion, item.InstallDate);
                     InsertDatabase(INSERT_APP);
                 
             }
