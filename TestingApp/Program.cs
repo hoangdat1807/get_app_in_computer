@@ -18,7 +18,7 @@ namespace TestingApp
         public string InstallDate { get; set; }
         public string Product { get; set; }
     }
-    class Program
+   public  class Program
     {
         StringBuilder sb = new StringBuilder();
         //AccessIni.GetPrivateProfileString("CONFIG", "URL", "", sb, 150, iniPath);
@@ -33,10 +33,11 @@ namespace TestingApp
         string strSQLInsert = "";
         public string INSERT_APP = "";
         public string id = "";
-        
         MySqlConnection connec = new MySqlConnection(connection);
-       
-        static void InsertDatabase(string strSQLInsert)
+       public Program()
+        { }
+      
+        public void InsertDatabase(string strSQLInsert)
         {
             MySqlConnection connec = new MySqlConnection(connection);
             connec.Open();
@@ -73,22 +74,10 @@ namespace TestingApp
 
             return result;
         }
-        public static void Main (string[] args)
-        {
-            DateTime now = DateTime.Now;
-            if (String.Compare(now.ToString("t"), " 9:00AM", true) == 0 || String.Compare(now.ToString("3:00PM"), "not connect", true) == 0 || String.Compare(now.ToString("15:00"), "not connect", true) == 0)
-           
-            {
-                Timer myTime = new Timer();
-                myTime.Interval = 1000;
-                myTime.Elapsed += new ElapsedEventHandler(DisplayTimeEvent);
-                myTime.Start();
-                Console.ReadLine();
-            }
-           
-
+        public  static void Main (string[] args)
+        { 
         }
-        public static void DisplayTimeEvent(object source, ElapsedEventArgs e)
+        public  void DisplayTimeEvent()
         {
             Console.WriteLine("In TimerCallback: " + DateTime.Now);
         
